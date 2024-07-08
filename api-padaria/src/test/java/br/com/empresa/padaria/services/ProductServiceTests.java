@@ -96,9 +96,9 @@ public class ProductServiceTests {
     @Test
     public void deleteByIdShouldDeleteObjectWhenIdExisting(){
 
-        service.deleteById(existingInd);
+      service.deleteById(existingInd);
 
-        Assertions.assertEquals(countTotalElements - 1, repository.count());
+      Assertions.assertEquals(countTotalElements -1, repository.count());
     }
 
     @Test
