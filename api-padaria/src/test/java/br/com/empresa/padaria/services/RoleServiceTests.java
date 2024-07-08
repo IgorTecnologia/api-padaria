@@ -43,7 +43,7 @@ public void findAllPagedShouldReturnAllRoles(){
     Assertions.assertNotNull(page);
 }
 
-@Test
+    @Test
     public void findByIdShouldReturnObjectWhenIdExisting(){
 
     RoleDTO dto = service.findById(existingId);
@@ -51,7 +51,7 @@ public void findAllPagedShouldReturnAllRoles(){
     Assertions.assertNotNull(dto);
 }
 
-@Test
+    @Test
     public void findByIdShouldThrowResourceNotFoundExceptionWhenIdNotFound(){
 
     Assertions.assertThrows(ResourceNotFoundException.class, () -> {
@@ -59,7 +59,7 @@ public void findAllPagedShouldReturnAllRoles(){
     });
 }
 
-@Test
+    @Test
     public void insertShouldSaveObjectWhenCorrectStructure(){
 
     RoleDTO dto = Factory.createdRoleDTO();
@@ -69,7 +69,7 @@ public void findAllPagedShouldReturnAllRoles(){
     Assertions.assertEquals(countTotalElements +1, repository.count());
 }
 
-@Test
+    @Test
     public void updateShouldSaveObjectWhenIdExisting(){
 
     RoleDTO dto = Factory.createdRoleDTO();
@@ -79,7 +79,7 @@ public void findAllPagedShouldReturnAllRoles(){
     Assertions.assertEquals(countTotalElements, repository.count());
 }
 
-@Test
+    @Test
     public void updateShouldThrowResourceNotFoundExceptionWhenIdNonExisting(){
 
     RoleDTO dto = Factory.createdRoleDTO();
@@ -90,7 +90,7 @@ public void findAllPagedShouldReturnAllRoles(){
     });
 }
 
-@Test
+    @Test
     public void deleteByIdShouldThrowResourceNotFoundExceptionWhenIdNonExisting(){
 
     Assertions.assertThrows(ResourceNotFoundException.class, () -> {
