@@ -125,7 +125,9 @@ public class RoleResourceIT {
     @Test
     public void deleteByIdShouldThrowResourceNotFoundExceptionWhenIdNonExisting() throws Exception {
 
-        ResultActions result = mockMvc.perform(delete("/roles/{id}", nonExistingId)
+        Long id = 5L;
+
+        ResultActions result = mockMvc.perform(delete("/roles/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
                     result.andExpect(status().isNotFound());
 
