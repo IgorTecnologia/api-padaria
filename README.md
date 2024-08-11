@@ -34,9 +34,11 @@ git clone https://github.com/IgorTecnologia/api-padaria.git
 
 ## Collection Postman
 
-Import this URL into your Postman to use the ready-made HTTP methods to make requests/responses:
+Download these files and import them into your Postman to use the ready-made HTTP methods along with the already configured environment variables, to perform the requests/responses
 
-URL: https://api.postman.com/collections/30344579-fecf826d-7462-44af-be6f-af728dca458b?access_key=PMAT-01J50VRKYXWJ1N4E7R2X1SHTGP
+[Download Collections](https://github.com/IgorTecnologia/api-padaria/blob/docs-postman/Api-padaria-collections.json)
+
+[Download Environment variables](https://github.com/IgorTecnologia/api-padaria/blob/docs-postman/Local-%20host-environment.json)
 
 ## API Endpoints
 The API provides the following endpoints:
@@ -160,9 +162,13 @@ The application comes with the H2 database as standard.
 
 ## Observation
 This APIRest provides other endpoints besides users, such as:
+
 /categories
+
 /users
+
 /roles
+
 Located in the Application resources layer.
 
 ## Contributing
