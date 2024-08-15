@@ -1,11 +1,28 @@
-## API-PADARIA
+## Api-padaria - Sistema de Gestão para Padarias
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-Este projeto é uma APIRest monolítica, construída usando Java, Spring, H2 como banco de dados.
+Api-padaria é uma aplicação backend desenvolvida utilizando o modelo arquitetural monolítico, focada em fornecer uma solução completa para a gestão de padarias.
 
-This project is a monolithic APIRest, built using Java, Spring, H2 as the database.
+- Estrutura e Funcionalidades
+
+A aplicação não implementa camadas de segurança ou login, facilitando o acesso direto às funcionalidades através de APIs REST. Ela oferece quatro APIs principais:
+
+Usuários: API para gerenciar e consultar os dados dos usuários cadastrados na aplicação.
+
+Roles de Usuários: API dedicada ao gerenciamento das roles (papéis) atribuídas aos usuários, permitindo configurar permissões e acessos específicos.
+
+Categorias: API para gerenciar as diferentes categorias de produtos oferecidos na padaria, organizando o catálogo de forma clara e eficiente.
+
+Produtos: API focada no gerenciamento de produtos, permitindo criar, atualizar, excluir e consultar informações sobre os itens disponíveis.
+
+- O que a aplicação proporciona?
+
+Api-padaria é projetada para simplificar o gerenciamento de padarias, oferecendo uma interface clara e direta para a administração de usuários, categorias, e produtos. A ausência de camadas de segurança permite uma implementação mais leve e rápida, adequada para cenários onde o controle de acesso não é uma prioridade.
+
+
 
 ## Table of Contents
 
