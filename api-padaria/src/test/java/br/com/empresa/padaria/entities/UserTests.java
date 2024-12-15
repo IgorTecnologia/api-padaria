@@ -3,6 +3,8 @@ package br.com.empresa.padaria.entities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class UserTests {
 
 	@Test
@@ -11,11 +13,15 @@ public class UserTests {
 		User entity = new User();
 		
 		Role role = new Role();
-		
-		role.setId(1L);
+
+		UUID id = UUID.randomUUID();
+
+		UUID uuid = UUID.randomUUID();
+
+		role.setId(id);
 		role.setAuthority("Manager");
 		
-		entity.setId(1L);
+		entity.setId(uuid);
 		entity.setFirstName("Igor");
 		entity.setLastName("Gonçalves");
 		entity.setEmail("igor@gmail.com");
