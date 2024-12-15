@@ -1,5 +1,6 @@
 package br.com.empresa.padaria.resources;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,14 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.empresa.padaria.dto.RoleDTO;
-import br.com.empresa.padaria.services.RoleService;
+import br.com.empresa.padaria.services.impl.RoleServiceImpl;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/roles")
 public class RoleResource {
 
 	@Autowired
-	private RoleService service;
+	private RoleServiceImpl service;
 	
 	@GetMapping
 	public ResponseEntity<Page<RoleDTO>> findAllPaged(Pageable pageable){
@@ -38,30 +41,30 @@ public class RoleResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<RoleDTO> findById(@PathVariable Long id){
+	public ResponseEntity<RoleDTO> findById(@PathVariable UUID id){
 		
 		RoleDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PostMapping
-	public ResponseEntity<RoleDTO> insert(@RequestBody RoleDTO dto){
+	public ResponseEntity<RoleDTO> insert(@RequestBody @Valid RoleDTO dto){
 		
 		dto = service.insert(dto);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<RoleDTO> update(@PathVariable Long id, @RequestBody RoleDTO dto){
+	public ResponseEntity<RoleDTO> update(@PathVariable UUID id, @RequestBody @Valid RoleDTO dto){
 		
 		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id){
+	public ResponseEntity<Object> deleteById(@PathVariable UUID id){
 		
 		service.deleteById(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body("Role deleted successfully.");
 	}
 }
