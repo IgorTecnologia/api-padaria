@@ -3,6 +3,8 @@ package br.com.empresa.padaria.entities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 public class ProductTests {
 
 	@Test
@@ -11,11 +13,15 @@ public class ProductTests {
 		Product entity = new Product();
 		
 		Category category = new Category();
-		
-		category.setId(1L);
+
+		UUID id = UUID.randomUUID();
+
+		UUID uuid = UUID.randomUUID();
+
+		category.setId(id);
 		category.setName("SmartPhone");
 		
-		entity.setId(1L);
+		entity.setId(uuid);
 		entity.setName("A70");
 		entity.setPrice(1600.00);
 		entity.setDescription("Dual chip");
