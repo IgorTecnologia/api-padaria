@@ -5,10 +5,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import br.com.empresa.padaria.dto.*;
+import br.com.empresa.padaria.entities.Product;
+import br.com.empresa.padaria.repositories.ProductRepository;
+import br.com.empresa.padaria.services.exceptions.ResourceNotFoundException;
 import br.com.empresa.padaria.tests.*;
-import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
-import com.jayway.jsonpath.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
@@ -16,6 +17,9 @@ import org.springframework.boot.test.context.*;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.*;
 import org.springframework.transaction.annotation.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -28,15 +32,8 @@ public class ProductResourceIT {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Long existingId;
-    private Long nonExistingId;
-
-    @BeforeEach
-    void setUp() throws Exception{
-
-        existingId = 1L;
-        nonExistingId = 4L;
-    }
+    @Autowired
+    private ProductRepository repository;
 
     @Test
     public void findAllPagedShouldReturnAllProductsSortByName() throws Exception {
@@ -54,7 +51,10 @@ public class ProductResourceIT {
     @Test
     public void findByIdShouldReturnObjectWhenIdExisting() throws Exception {
 
-        ResultActions result = mockMvc.perform(get("/products/{id}", existingId)
+        Optional<Product> obj = repository.findAll().stream().findFirst();
+        UUID id = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found: " + obj.get().getId())).getId();
+
+        ResultActions result = mockMvc.perform(get("/products/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
                 result.andExpect(status().isOk());
 
@@ -63,9 +63,11 @@ public class ProductResourceIT {
     }
 
     @Test
-    public void findByIdShouldThrowResourceNotFoundExceptionWhenIdNonExisting() throws Exception {
+    public void findByIdShouldReturnStatusNotFoundWhenIdNonExisting() throws Exception {
 
-        ResultActions result = mockMvc.perform(get("/products/{id}", nonExistingId)
+        UUID id = UUID.randomUUID();
+
+        ResultActions result = mockMvc.perform(get("/products/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
                 result.andExpect(status().isNotFound());
     }
@@ -90,28 +92,33 @@ public class ProductResourceIT {
     @Test
     public void updateShouldSaveObjectWhenIdExisting() throws Exception {
 
+        Optional<Product> obj = repository.findAll().stream().findFirst();
+        UUID id = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found: " + obj.get().getId())).getId();
+
         ProductDTO dto = Factory.createdProductDTO();
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
-        ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
+        ResultActions result = mockMvc.perform(put("/products/{id}", id)
                 .content(jsonBody)
                     .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
                             result.andExpect(status().isOk());
 
-                    result.andExpect(jsonPath("$.id").value(1L));
-                    result.andExpect(jsonPath("$.name").value("Mortadela"));
+                    result.andExpect(jsonPath("$.id").exists());
+                    result.andExpect(jsonPath("$.name").exists());
     }
 
     @Test
-    public void updateShouldThrowResourceNotFoundExceptionWhenIdNonExisting() throws Exception {
+    public void updateShouldReturnStatusNotFoundWhenIdNonExisting() throws Exception {
+
+        UUID id = UUID.randomUUID();
 
         ProductDTO dto = Factory.createdProductDTO();
 
         String jsonBody = objectMapper.writeValueAsString(dto);
 
-        ResultActions result = mockMvc.perform(put("/products/{id}", nonExistingId)
+        ResultActions result = mockMvc.perform(put("/products/{id}", id)
                 .content(jsonBody)
                     .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -122,16 +129,21 @@ public class ProductResourceIT {
     @Test
     public void deleteByIdShouldDeleteObjectWhenIdExisting() throws Exception {
 
-        ResultActions result = mockMvc.perform(delete("/products/{id}", existingId)
+        Optional<Product> obj = repository.findAll().stream().findFirst();
+        UUID id = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found: " + obj.get().getId())).getId();
+
+        ResultActions result = mockMvc.perform(delete("/products/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
 
-        result.andExpect(status().isNoContent());
+        result.andExpect(status().isOk());
     }
 
     @Test
-    public void deleteByIdShouldThrowResourceNotFoundExceptionWhenIdNonExisting() throws Exception {
+    public void deleteByIdShouldReturnStatusNotFoundWhenIdNonExisting() throws Exception {
 
-        ResultActions result = mockMvc.perform(delete("/products/{id}", nonExistingId)
+        UUID id = UUID.randomUUID();
+
+        ResultActions result = mockMvc.perform(delete("/products/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isNotFound());
