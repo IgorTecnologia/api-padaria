@@ -10,18 +10,17 @@ Api-padaria é uma aplicação backend desenvolvida utilizando o modelo arquitet
 
 A aplicação não implementa camadas de segurança ou login, facilitando o acesso direto às funcionalidades através de APIs REST. Ela oferece quatro APIs principais:
 
-Usuários: API para gerenciar e consultar os dados dos usuários cadastrados na aplicação.
+API RESTful para Usuários: API para gerenciar e consultar os dados dos usuários cadastrados na aplicação.
 
-Roles de Usuários: API dedicada ao gerenciamento das roles (papéis) atribuídas aos usuários, permitindo configurar permissões e acessos específicos.
+APIREST Roles de Usuários: API dedicada ao gerenciamento das roles (papéis) atribuídas aos usuários, permitindo configurar permissões e acessos específicos.
 
-Categorias: API para gerenciar as diferentes categorias de produtos oferecidos na padaria, organizando o catálogo de forma clara e eficiente.
+API RESTful para Categorias: API para gerenciar as diferentes categorias de produtos oferecidos na padaria, organizando o catálogo de forma clara e eficiente.
 
-Produtos: API focada no gerenciamento de produtos, permitindo criar, atualizar, excluir e consultar informações sobre os itens disponíveis.
+API RESTful para Produtos: API focada no gerenciamento de produtos, permitindo criar, atualizar, excluir e consultar informações sobre os itens disponíveis.
 
 - O que a aplicação proporciona?
 
 Api-padaria é projetada para simplificar o gerenciamento de padarias, oferecendo uma interface clara e direta para a administração de usuários, categorias, e produtos. A ausência de camadas de segurança permite uma implementação mais leve e rápida, adequada para cenários onde o controle de acesso não é uma prioridade.
-
 
 
 ## Table of Contents
@@ -67,16 +66,23 @@ GET /products - Retrieve a pagination of all products.
 ```json
 "content": [
         {
-            "id": 1,
+            "id": "ac12725e-fa92-4943-a8b4-daa675eddc62",
             "name": "Pão Francês",
             "description": "Quentinho e crocante",
             "price": 7.0,
             "imgUrl": "www.padaria.com",
             "categories": [
                 {
-                    "id": 1,
+                    "id": "3b957637-e186-4c2c-aaa6-e19cf5d93392",
                     "name": "Salgados",
-                    "products": []
+                    "products": [],
+                    "links": []
+                }
+            ],
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://localhost:8080/products/ac12725e-fa92-4943-a8b4-daa675eddc62"
                 }
             ]
         }
@@ -89,18 +95,20 @@ Exemple: GET /products/name/Pão
 ```json
    "content": [
         {
-            "id": 1,
+            "id": "ac12725e-fa92-4943-a8b4-daa675eddc62",
             "name": "Pão Francês",
             "description": "Quentinho e crocante",
             "price": 7.0,
             "imgUrl": "www.padaria.com",
             "categories": [
                 {
-                    "id": 1,
+                    "id": "3b957637-e186-4c2c-aaa6-e19cf5d93392",
                     "name": "Salgados",
-                    "products": []
+                    "products": [],
+                    "links": []
                 }
-            ]
+            ],
+            "links": []
         }
 ```
 **GET PRODUCTS/ID**
@@ -110,14 +118,14 @@ GET /products/id - Retrieve a single product by id.
 
 ```json
 {
-    "id": 1,
+    "id": "ac12725e-fa92-4943-a8b4-daa675eddc62",
     "name": "Pão Francês",
     "description": "Quentinho e crocante",
     "price": 7.0,
     "imgUrl": "www.padaria.com",
     "categories": [
         {
-            "id": 1,
+            "id": "3b957637-e186-4c2c-aaa6-e19cf5d93392",
             "name": "Salgados",
             "products": []
         }
@@ -131,10 +139,18 @@ POST /products - Register a new product into the App.
 ```
 ```json
 {
-    "name" : "Arroz, feijão e filé mignon",
-    "description" : "Prato brasileiro é o prato da casa",
-    "price" : 37.77,
-    "imgUrl" : "www.padaria.com"
+    "id": "d66dcab1-ff9d-4cc0-bffa-d9736e43f3b2",
+    "name": "Arroz, feijão e filé mignon de 1° qualidade",
+    "description": "Prato brasileiro é o prato da casa",
+    "price": 17.77,
+    "imgUrl": "www.padaria.com",
+    "categories": [
+        {
+            "id": "a5048f27-22e4-4ace-afb3-b78d16423bc2",
+            "name": "Pratos",
+            "products": []
+        }
+    ]
 }
 ```
 **PUT PRODUCTS**
@@ -143,22 +159,25 @@ PUT /products/id - Update a product in the application by id.
 ```
 ```json
 {
-    "name" : "Biscoito",
-    "description" : "Biscoito caseiro",
-    "price" : 7.77,
-    "imgUrl" : "www.padaria.com",
-    "categories" : [
+    "id": "d66dcab1-ff9d-4cc0-bffa-d9736e43f3b2",
+    "name": "Biscoito",
+    "description": "Biscoito caseiro",
+    "price": 7.77,
+    "imgUrl": "www.padaria.com",
+    "categories": [
         {
-            "id" : 2
+            "id": "a94462f4-5432-4528-9a99-84754fed6422",
+            "name": "Guloseimas",
+            "products": []
         }
     ]
-    
 }
 ```
 **DELETE PRODUCTS**
 ```markdown
 DELETE /products/id - Delete a product in the application by id.
-return HTTP status: 204 NO CONTENT
+Return HTTP status: 200.
+Body: Product deleted successfully.
 
 ```
 ## Database
@@ -174,7 +193,7 @@ The application comes with the H2 database as standard.
 - Spring Boot
 - Maven
 - H2 Database
-- Spring Tool Suite 4
+- IntelliJ IDEA Community
 - Postman
 
 ## Observation
