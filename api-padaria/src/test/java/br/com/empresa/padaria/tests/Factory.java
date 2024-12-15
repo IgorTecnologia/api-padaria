@@ -9,59 +9,95 @@ import br.com.empresa.padaria.entities.Product;
 import br.com.empresa.padaria.entities.Role;
 import br.com.empresa.padaria.entities.User;
 
+import java.util.UUID;
+
 public class Factory {
 
 	public static Category createdCategory() {
 
-		Category entity = new Category(null, "Frios");
+		UUID id = UUID.randomUUID();
+
+		Category entity = new Category(id, "Frios");
 		return entity;
 	}
 
 	public static CategoryDTO createdCategoryDTO() {
 
-		CategoryDTO dto = new CategoryDTO(1L, "Frios");
+		UUID id = UUID.randomUUID();
+
+		CategoryDTO dto = new CategoryDTO(id, "Frios");
 		return dto;
 
 	}
 
 	public static Product createdProduct() {
 
-		Product entity = new Product(null, "Mortadela", "Defumada", 6.0, "www.img.com");
+		UUID id = UUID.randomUUID();
+
+		Product entity = new Product(id, "Mortadela", "Defumada", 6.0, "www.img.com");
 		return entity;
 	}
 
 	public static ProductDTO createdProductDTO() {
-		
-		ProductDTO dto = new ProductDTO(1L, "Mortadela", "Defumada", 6.0, "www.img.com");
+
+		UUID id = UUID.randomUUID();
+
+		ProductDTO dto = new ProductDTO(id, "Mortadela", "Defumada", 6.0, "www.img.com");
 		
 		return dto;
 	}
 	
 	public static User createdUser() {
-		
-		User entity = new User(null, "Pedro", "Silva", "pedro@gmail.com", "123456");
+
+		UUID id = UUID.randomUUID();
+
+		User entity = new User(id, "Pedro", "Silva", "pedro@gmail.com", "123456");
 		
 		return entity;
 	}
 	
 	public static UserDTO createdUserDTO() {
+
+		UUID id = UUID.randomUUID();
+
+		UserDTO dto = new UserDTO(id, "Pedro", "Silva", "pedro@gmail.com", "123456");
 		
-		UserDTO dto = new UserDTO(1L, "Pedro", "Silva", "pedro@gmail.com", "123456");
-		
+		return dto;
+	}
+
+	public static UserDTO createdUserDtoToUpdate() {
+
+		UUID id = UUID.randomUUID();
+
+		UserDTO dto = new UserDTO(id, "Lucas", "Silva", "lucas@gmail.com", "123456");
+
 		return dto;
 	}
 	
 	public static Role createdRole() {
-		
-		Role entity = new Role(null, "Manager");
+
+		UUID id = UUID.randomUUID();
+
+		Role entity = new Role(id, "Manager");
 		
 		return entity;
 	}
 	
 	public static RoleDTO createdRoleDTO() {
+
+		UUID id = UUID.randomUUID();
+
+		RoleDTO dto = new RoleDTO(id, "CEO");
 		
-		RoleDTO dto = new RoleDTO(1L, "Manager");
-		
+		return dto;
+	}
+
+	public static RoleDTO createdRoleDtoToUpdate() {
+
+		UUID id = UUID.randomUUID();
+
+		RoleDTO dto = new RoleDTO(id, "Assistent");
+
 		return dto;
 	}
 }
