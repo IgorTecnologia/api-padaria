@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import br.com.empresa.padaria.services.UserService;
-import br.com.empresa.padaria.specification.SpecificationTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,9 +29,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Transactional(readOnly = true)
 	@Override
-	public Page<UserDTO> findAllPaged(SpecificationTemplate.UserSpec spec, Pageable pageable){
+	public Page<UserDTO> findAllPaged(Pageable pageable){
 		
-		Page<User> page = repository.findAll(spec, pageable);
+		Page<User> page = repository.findAll(pageable);
 		return page.map(x -> new UserDTO(x, x.getRoles()));
 	}
 	
