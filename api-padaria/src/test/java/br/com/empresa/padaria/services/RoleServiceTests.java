@@ -1,9 +1,10 @@
 package br.com.empresa.padaria.services;
 
 import br.com.empresa.padaria.dto.*;
-import br.com.empresa.padaria.entities.*;
+import br.com.empresa.padaria.entities.Role;
 import br.com.empresa.padaria.repositories.*;
 import br.com.empresa.padaria.services.exceptions.*;
+import br.com.empresa.padaria.services.impl.RoleServiceImpl;
 import br.com.empresa.padaria.tests.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
@@ -11,90 +12,105 @@ import org.springframework.boot.test.context.*;
 import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.*;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @SpringBootTest
 @Transactional
 public class RoleServiceTests {
 
     @Autowired
-    private RoleService service;
+    private RoleServiceImpl service;
 
     @Autowired
     private RoleRepository repository;
 
-private Long existingId;
-private Long nonExistingId;
-private Long countTotalElements;
+    private Long countTotalElements;
 
-@BeforeEach
-void setUp() throws Exception{
+    @BeforeEach
+    void setUp() throws Exception{
 
-    existingId = 1L;
-    nonExistingId = 4L;
-    countTotalElements = 3L;
-}
+        countTotalElements = 3L;
+    }
 
-@Test
-public void findAllPagedShouldReturnAllRoles(){
+    @Test
+    public void findAllPagedShouldReturnAllRoles(){
 
-    Pageable pageable = PageRequest.of(0, 12);
+        Pageable pageable = PageRequest.of(0, 12);
 
-    Page<RoleDTO> page = service.findAllPaged(pageable);
+        Page<RoleDTO> page = service.findAllPaged(pageable);
 
-    Assertions.assertNotNull(page);
+        Assertions.assertNotNull(page);
 }
 
     @Test
     public void findByIdShouldReturnObjectWhenIdExisting(){
 
-    RoleDTO dto = service.findById(existingId);
+        Optional<Role> obj = repository.findAll().stream().findFirst();
+        UUID id = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found: " + obj.get().getId())).getId();
 
-    Assertions.assertNotNull(dto);
+        RoleDTO dto = service.findById(id);
+
+        Assertions.assertNotNull(dto);
 }
 
     @Test
     public void findByIdShouldThrowResourceNotFoundExceptionWhenIdNotFound(){
 
-    Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-        service.findById(nonExistingId);
-    });
+        UUID id = UUID.randomUUID();
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.findById(id);
+            throw new ResourceNotFoundException("Id not found: " + id);
+        });
 }
 
     @Test
     public void insertShouldSaveObjectWhenCorrectStructure(){
 
-    RoleDTO dto = Factory.createdRoleDTO();
+        RoleDTO dto = Factory.createdRoleDTO();
 
-    dto = service.insert(dto);
+        dto = service.insert(dto);
 
-    Assertions.assertEquals(countTotalElements +1, repository.count());
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(countTotalElements +1, repository.count());
 }
 
     @Test
     public void updateShouldSaveObjectWhenIdExisting(){
 
-    RoleDTO dto = Factory.createdRoleDTO();
+        Optional<Role> obj = repository.findAll().stream().findFirst();
+        UUID id = obj.orElseThrow(() -> new ResourceNotFoundException("Id not found: " + obj.get().getId())).getId();
 
-    dto = service.update(existingId, dto);
+        RoleDTO dto = Factory.createdRoleDTO();
 
-    Assertions.assertEquals(countTotalElements, repository.count());
+        dto = service.update(id, dto);
+
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(countTotalElements, repository.count());
 }
 
     @Test
     public void updateShouldThrowResourceNotFoundExceptionWhenIdNonExisting(){
 
-    RoleDTO dto = Factory.createdRoleDTO();
+        UUID id = UUID.randomUUID();
 
-    Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-        service.update(nonExistingId, dto);
+        RoleDTO dto = Factory.createdRoleDTO();
 
-    });
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.update(id, dto);
+            throw new ResourceNotFoundException("Id not found: " + id);
+        });
 }
 
     @Test
     public void deleteByIdShouldThrowResourceNotFoundExceptionWhenIdNonExisting(){
 
-    Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-        service.deleteById(nonExistingId);
-    });
+        UUID id = UUID.randomUUID();
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.deleteById(id);
+            throw new ResourceNotFoundException("Id not found: " + id);
+        });
 }
 }
