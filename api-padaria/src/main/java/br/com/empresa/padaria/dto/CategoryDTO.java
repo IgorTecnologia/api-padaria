@@ -1,22 +1,34 @@
 package br.com.empresa.padaria.dto;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import br.com.empresa.padaria.entities.Category;
 import br.com.empresa.padaria.entities.Product;
+import br.com.empresa.padaria.validations.NameConstraint;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
-public class CategoryDTO {
+@Data
+public class CategoryDTO extends RepresentationModel<CategoryDTO> {
 
-	private Long id;
+	private UUID id;
+
+	@NotNull(message = "The name field is mandatory.")
+	@Size(min = 2, max = 30, message = "Minimum characters allowed are 2 e maximum are 30.")
+	@NameConstraint(message = "The name field already exists (not allowed).")
 	private String name;
 	
-	private Set<ProductDTO> products = new HashSet<>();
+	private List<ProductDTO> products = new ArrayList<>();
 	
 	public CategoryDTO() {
 	}
 
-	public CategoryDTO(Long id, String name) {
+	public CategoryDTO(UUID id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -27,31 +39,9 @@ public class CategoryDTO {
 		name = entity.getName();
 	}
 	
-	public CategoryDTO(Category entity, Set<Product> products) {
+	public CategoryDTO(Category entity, List<Product> products) {
 		
 		this(entity);
 		products.forEach(x -> this.products.add(new ProductDTO(x)));
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<ProductDTO> getProducts() {
-		return products;
-	}
-	
-	
 }
