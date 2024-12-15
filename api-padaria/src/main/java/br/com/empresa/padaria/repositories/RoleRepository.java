@@ -7,7 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 import br.com.empresa.padaria.entities.Role;
 
-public interface RoleRepository extends JpaRepository<Role, Long>{
+import java.util.UUID;
 
-	public Page<Role> findAllByAuthorityContainingIgnoreCase(@Param ("authority") String authority, Pageable pageable);
+public interface RoleRepository extends JpaRepository<Role, UUID>{
+
+	Page<Role> findAllByAuthorityContainingIgnoreCase(@Param ("authority") String authority, Pageable pageable);
+
+    boolean existsByAuthority(String authority);
 }
