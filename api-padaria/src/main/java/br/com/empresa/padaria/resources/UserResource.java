@@ -1,6 +1,5 @@
 package br.com.empresa.padaria.resources;
 
-import br.com.empresa.padaria.specification.SpecificationTemplate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,9 +30,9 @@ public class UserResource {
 	private UserServiceImpl service;
 	
 	@GetMapping
-	public ResponseEntity<Page<UserDTO>> findAllPaged(SpecificationTemplate.UserSpec spec, Pageable pageable){
+	public ResponseEntity<Page<UserDTO>> findAllPaged(Pageable pageable){
 		
-		Page<UserDTO> page = service.findAllPaged(spec, pageable);
+		Page<UserDTO> page = service.findAllPaged(pageable);
 		if(!page.isEmpty()){
 			for(UserDTO dto : page.toList()){
 				dto.add(linkTo(methodOn(UserResource.class).findById(dto.getId())).withSelfRel());
