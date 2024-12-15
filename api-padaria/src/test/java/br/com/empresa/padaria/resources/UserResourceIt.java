@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserResourceIt {
+public class UserResourceIT {
 
     @Autowired
     private MockMvc mockMvc;
