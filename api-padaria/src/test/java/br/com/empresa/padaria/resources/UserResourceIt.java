@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import br.com.empresa.padaria.dto.*;
-import br.com.empresa.padaria.entities.*;
 import br.com.empresa.padaria.tests.*;
 import com.fasterxml.jackson.databind.*;
 import org.junit.jupiter.api.*;
