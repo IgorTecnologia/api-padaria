@@ -16,13 +16,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.context.*;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.*;
-import org.springframework.transaction.annotation.*;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
-@Transactional
 @AutoConfigureMockMvc
 public class ProductResourceIT {
 
